@@ -1,4 +1,7 @@
 package com.company;
+
+import javafx.scene.control.TextArea;
+import java.awt.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,12 +21,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.omg.CORBA.PUBLIC_MEMBER;
-import java.awt.*;
 
 public class Main extends Application {
 
     Stage window;
-    Button signIn, signUp, signInButton, signUpButton, signtOut, save, viewTasks, newTask;
+    Button signIn, signUp, signInButton, signUpButton, signtOut, save, back, viewTasks, newTask;
     Scene sceneA, sceneB, sceneC, sceneD, sceneE, sceneF, sceneG;
 
     public static void main(String[] args) {
@@ -197,15 +199,23 @@ public class Main extends Application {
         AnchorPane.setTopAnchor(noteLabel,75.0);
         //Note-Text Area
         TextArea textArea = new TextArea();
-        //AnchorPane.setRightAnchor(textArea,20.0);
+        textArea.setWrapText(true);
+        textArea.setMaxWidth(150);
+        textArea.setMaxHeight(200);
+        AnchorPane.setRightAnchor(textArea,40.0);
+        AnchorPane.setBottomAnchor(textArea, 100.0);
         //Buttons
         save = new Button("Save");
         save.setOnAction(e -> System.out.println("test"));
         AnchorPane.setLeftAnchor(save, 100.0);
         AnchorPane.setBottomAnchor(save, 35.0);
+        back = new Button("Back");
+        back.setOnAction(e ->Choice());
+        AnchorPane.setRightAnchor(back, 100.0);
+        AnchorPane.setBottomAnchor(back,35.0);
         //Scene
         AnchorPane anchorPane = new AnchorPane();
-        anchorPane.getChildren().addAll(text, titleLabel, titleInput, dateLabel, datePicker, noteLabel, save);
+        anchorPane.getChildren().addAll(text, titleLabel, titleInput, dateLabel, datePicker, noteLabel, save, back, textArea);
         sceneE = new Scene(anchorPane,400,400);
         window.setScene(sceneE);
         window.show();
