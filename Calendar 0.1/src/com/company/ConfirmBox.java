@@ -10,17 +10,18 @@ public class ConfirmBox {
     static boolean answer;
 
     public static boolean display(String title, String massage){
+        //Window Options
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.setResizable(false);
         window.setTitle(title);
-        window.setMinWidth(250);
+        window.setMinWidth(300);
+        window.setHeight(150);
         Label label = new Label();
         label.setText(massage);
-
-        //Create two buttons
+        //Buttons
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");
-
         yesButton.setOnAction(e ->{
             answer = true;
             window.close();
@@ -29,14 +30,13 @@ public class ConfirmBox {
             answer = false;
             window.close();
         });
-
+        //Scene
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
-
         return answer;
     }
 
