@@ -1,26 +1,31 @@
 package com.company;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import java.awt.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.omg.CORBA.PUBLIC_MEMBER;
+import javafx.scene.control.PasswordField;
 
 public class Main extends Application {
 
@@ -36,6 +41,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //Window Options
+
         window = primaryStage;
         window.setResizable(false);
         window.setTitle("TaskManager 0.4");
@@ -53,8 +59,6 @@ public class Main extends Application {
         signUp = new Button("Sign Up");
         signIn.setOnAction(e -> SigninScene());
         signUp.setOnAction(e -> SignupScene());
-        signIn.setMaxWidth(60);
-        signUp.setMaxWidth(60);
         //Scene
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(signIn , signUp);
@@ -63,6 +67,7 @@ public class Main extends Application {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.getChildren().addAll(vBox, text);
         sceneA = new Scene(anchorPane , 400 ,400);
+        sceneA.getStylesheets().add("MyCSS.css");
         window.setScene(sceneA);
         window.show();
 
@@ -75,17 +80,17 @@ public class Main extends Application {
         grid.setVgap(8);
         grid.setHgap(10);
         //Name Label
-        Label nameLabel = new Label("Username");
+        Label nameLabel = new Label("Username:");
         GridPane.setConstraints(nameLabel, 0, 0);
         //Name Input
         TextField nameInput = new TextField();
         nameInput.setPromptText("Username");
         GridPane.setConstraints(nameInput, 1, 0);
         //Password Label
-        Label passwordLabel = new Label("Password");
+        Label passwordLabel = new Label("Password:");
         GridPane.setConstraints(passwordLabel, 0, 1);
         //Password Input
-        TextField passwordInput = new TextField();
+        PasswordField passwordInput = new PasswordField();
         passwordInput.setPromptText("Password");
         GridPane.setConstraints(passwordInput, 1, 1);
         //Buttons scene
@@ -124,7 +129,7 @@ public class Main extends Application {
         Label passwordLabel = new Label("Password:");
         GridPane.setConstraints(passwordLabel, 0, 2);
         //Password Input
-        TextField passwordInput = new TextField();
+        PasswordField passwordInput = new PasswordField();
         passwordInput.setPromptText("Password");
         GridPane.setConstraints(passwordInput, 1, 2);
         //Buttons scene

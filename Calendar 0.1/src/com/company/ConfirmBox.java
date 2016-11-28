@@ -1,4 +1,5 @@
 package com.company;
+import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -31,10 +32,10 @@ public class ConfirmBox {
             window.close();
         });
         //Scene
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, yesButton, noButton);
-        layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout);
+        VBox vBox = new VBox(10);
+        vBox.getChildren().addAll(label, yesButton, noButton);
+        vBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.showAndWait();
         return answer;
