@@ -9,3 +9,7 @@
     -fx-border-color: #000000;
     -fx-max-width: 90;
 }
+.label{
+    -fx-text-fill: #000000;
+    -fx-font-size: 13;
+}

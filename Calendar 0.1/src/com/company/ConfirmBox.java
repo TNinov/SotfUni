@@ -36,6 +36,7 @@ public class ConfirmBox {
         vBox.getChildren().addAll(label, yesButton, noButton);
         vBox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(vBox);
+        scene.getStylesheets().add("MyCSS.css");
         window.setScene(scene);
         window.showAndWait();
         return answer;

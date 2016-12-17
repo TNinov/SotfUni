@@ -1,36 +1,35 @@
 package com.company;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import java.awt.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableView;
 
 public class Main extends Application {
 
     Stage window;
-    Button signIn, signUp, signInButton, signUpButton, signtOut, save, back, viewTasks, newTask;
+    Button signIn, signUp, signInButton, signUpButton, signtOut, save, delete, back, viewTasks, newTask;
+    TableView<Tasks> tableView;
+    TextField titleInput;
+    TextArea noteInput;
+    DatePicker dateInput;
     Scene sceneA, sceneB, sceneC, sceneD, sceneE, sceneF, sceneG;
 
     public static void main(String[] args) {
@@ -44,11 +43,12 @@ public class Main extends Application {
 
         window = primaryStage;
         window.setResizable(false);
-        window.setTitle("TaskManager 0.4");
+        window.setTitle("TaskManager 0.5");
         window.setOnCloseRequest(e ->{
             e.consume();
             closeProgram();
         });
+        AnchorPane anchorPane = new AnchorPane();
         //Text
         Text text = new Text("Welcome!");
         text.setFont(Font.font("",FontWeight.NORMAL, FontPosture.ITALIC,30));
@@ -57,14 +57,13 @@ public class Main extends Application {
         //Buttons
         signIn = new Button("Sign In");
         signUp = new Button("Sign Up");
-        signIn.setOnAction(e -> SigninScene());
-        signUp.setOnAction(e -> SignupScene());
+        signIn.setOnAction(e -> signinScene());
+        signUp.setOnAction(e -> signupScene());
         //Scene
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(signIn , signUp);
         AnchorPane.setLeftAnchor(vBox, 170.0);
         AnchorPane.setTopAnchor(vBox, 110.0);
-        AnchorPane anchorPane = new AnchorPane();
         anchorPane.getChildren().addAll(vBox, text);
         sceneA = new Scene(anchorPane , 400 ,400);
         sceneA.getStylesheets().add("MyCSS.css");
@@ -73,8 +72,9 @@ public class Main extends Application {
 
     }
 
-    public void SigninScene(){
+    public void signinScene(){
 
+        AnchorPane anchorPane = new AnchorPane();
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
@@ -93,20 +93,28 @@ public class Main extends Application {
         PasswordField passwordInput = new PasswordField();
         passwordInput.setPromptText("Password");
         GridPane.setConstraints(passwordInput, 1, 1);
-        //Buttons scene
+        //Buttons
+        back = new Button("Back");
+        back.setOnAction(e ->window.setScene(sceneA));
+        GridPane.setConstraints(back, 1, 3);
         signInButton = new Button("Sign In");
-        signInButton.setOnAction(e -> Choice());
+        signInButton.setOnAction(e -> home());
         GridPane.setConstraints(signInButton, 1, 2);
         //Scene
-        grid.getChildren().addAll(nameLabel, nameInput, passwordLabel, passwordInput, signInButton);
-        sceneB = new Scene(grid, 400 , 400);
+        grid.getChildren().addAll(nameLabel, nameInput, passwordLabel, passwordInput, signInButton, back);
+        anchorPane.getChildren().addAll(grid);
+        AnchorPane.setLeftAnchor(grid, 70.0);
+        AnchorPane.setTopAnchor(grid, 110.0);
+        sceneB = new Scene(anchorPane, 400 , 400);
+        sceneB.getStylesheets().add("MyCSS.css");
         window.setScene(sceneB);
         window.show();
 
     }
 
-    public void SignupScene(){
+    public void signupScene(){
 
+        AnchorPane anchorPane = new AnchorPane();
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
@@ -132,50 +140,61 @@ public class Main extends Application {
         PasswordField passwordInput = new PasswordField();
         passwordInput.setPromptText("Password");
         GridPane.setConstraints(passwordInput, 1, 2);
-        //Buttons scene
+        //Buttons
+        back = new Button("Back");
+        back.setOnAction(e ->window.setScene(sceneA));
+        GridPane.setConstraints(back, 1, 4);
         signUpButton = new Button("Sign Up");
-        signUpButton.setOnAction(e -> SigninScene());
+        signUpButton.setOnAction(e -> signinScene());
         GridPane.setConstraints(signUpButton, 1, 3);
         //Scene
-        grid.getChildren().addAll(nameLabel, nameInput, emailLabel, emailInput, passwordLabel, passwordInput, signUpButton);
-        sceneC = new Scene(grid, 400 , 400);
+        grid.getChildren().addAll(nameLabel, nameInput, emailLabel, emailInput, passwordLabel, passwordInput, signUpButton,back);
+        anchorPane.getChildren().addAll(grid);
+        AnchorPane.setLeftAnchor(grid, 70.0);
+        AnchorPane.setTopAnchor(grid, 110.0);
+        sceneC = new Scene(anchorPane, 400 , 400);
+        sceneC.getStylesheets().add("MyCSS.css");
         window.setScene(sceneC);
         window.show();
 
     }
 
-    public void Choice(){
+    public void home(){
 
+        VBox vBox = new VBox(10);
         //Text
         Text text = new Text("Home");
         text.setFont(Font.font("",FontWeight.NORMAL, FontPosture.ITALIC,25));
         AnchorPane.setLeftAnchor(text, 170.0);
         AnchorPane.setTopAnchor(text, 30.0);
         //Buttons
-        VBox vBox = new VBox(10);
         newTask = new Button("New Task");
-        newTask.setOnAction(e -> Description());
+        newTask.setOnAction(e -> newTask());
         newTask.setMaxWidth(90);
         viewTasks = new Button("View Tasks");
+        viewTasks.setOnAction(e -> viewTask());
         viewTasks.setMaxWidth(90);
         signtOut = new Button("Sign Out");
         signtOut.setOnAction(e ->window.setScene(sceneA));
         signtOut.setMaxWidth(90);
+        //Scene
         vBox.getChildren().addAll(newTask, viewTasks, signtOut);
         AnchorPane.setLeftAnchor(vBox, 170.0);
         AnchorPane.setTopAnchor(vBox, 80.0);
-        //Scene
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.getChildren().addAll(vBox, text);
         sceneD = new Scene(anchorPane,400,400);
+        sceneD.getStylesheets().add("MyCSS.css");
         window.setScene(sceneD);
         window.show();
 
     }
 
-    public void Description(){
+    public void newTask(){
+
+        AnchorPane anchorPane = new AnchorPane();
         //Text
-        Text text = new Text("Description");
+        Text text = new Text("Description:");
         text.setFont(Font.font("",FontWeight.NORMAL, FontPosture.ITALIC,18));
         AnchorPane.setLeftAnchor(text, 150.0);
         AnchorPane.setTopAnchor(text, 30.0);
@@ -184,7 +203,7 @@ public class Main extends Application {
         AnchorPane.setLeftAnchor(titleLabel, 20.0);
         AnchorPane.setTopAnchor(titleLabel,135.0);
         //Title Input
-        TextField titleInput = new TextField();
+        titleInput = new TextField();
         titleInput.setPromptText("Title");
         titleInput.setMaxWidth(125.0);
         AnchorPane.setLeftAnchor(titleInput, 55.0);
@@ -194,39 +213,109 @@ public class Main extends Application {
         AnchorPane.setLeftAnchor(dateLabel, 20.0);
         AnchorPane.setTopAnchor(dateLabel,185.0);
         //Date
-        DatePicker datePicker = new DatePicker();
-        datePicker.setMaxWidth(125.0);
-        AnchorPane.setLeftAnchor(datePicker, 55.0);
-        AnchorPane.setTopAnchor(datePicker,180.0);
+        dateInput = new DatePicker();
+        dateInput.setMaxWidth(125.0);
+        AnchorPane.setLeftAnchor(dateInput, 55.0);
+        AnchorPane.setTopAnchor(dateInput,180.0);
         //Note Label
         Label noteLabel = new Label("Note:");
         AnchorPane.setRightAnchor(noteLabel, 100.0);
         AnchorPane.setTopAnchor(noteLabel,75.0);
         //Note-Text Area
-        TextArea textArea = new TextArea();
-        textArea.setWrapText(true);
-        textArea.setMaxWidth(150);
-        textArea.setMaxHeight(200);
-        AnchorPane.setRightAnchor(textArea,40.0);
-        AnchorPane.setBottomAnchor(textArea, 100.0);
+        noteInput = new TextArea();
+        noteInput.setWrapText(true);
+        noteInput.setMaxWidth(150);
+        noteInput.setMaxHeight(200);
+        AnchorPane.setRightAnchor(noteInput,40.0);
+        AnchorPane.setBottomAnchor(noteInput, 100.0);
         //Buttons
         save = new Button("Save");
-        save.setOnAction(e -> System.out.println("test"));
+        save.setOnAction(e -> saveButton());
         AnchorPane.setLeftAnchor(save, 100.0);
         AnchorPane.setBottomAnchor(save, 35.0);
         back = new Button("Back");
-        back.setOnAction(e ->Choice());
+        back.setOnAction(e ->home());
         AnchorPane.setRightAnchor(back, 100.0);
         AnchorPane.setBottomAnchor(back,35.0);
         //Scene
-        AnchorPane anchorPane = new AnchorPane();
-        anchorPane.getChildren().addAll(text, titleLabel, titleInput, dateLabel, datePicker, noteLabel, save, back, textArea);
+        anchorPane.getChildren().addAll(text, titleLabel, titleInput, dateLabel, dateInput, noteLabel, save, back, noteInput);
         sceneE = new Scene(anchorPane,400,400);
+        sceneE.getStylesheets().add("MyCSS.css");
         window.setScene(sceneE);
         window.show();
 
     }
+    //Save Button
+    public void saveButton(){
+        Tasks tasks = new Tasks();
+        tasks.setTitle(titleInput.getText());
+        tasks.setTitle(dateInput.getId());
+        tasks.setNote(noteInput.getText());
+        tableView.getItems().add(tasks);
+        titleInput.clear();
+        noteInput.clear();
 
+    }
+
+    public void viewTask(){
+
+        AnchorPane anchorPane = new AnchorPane();
+        //Text
+        Text text = new Text("Tasks:");
+        text.setFont(Font.font("",FontWeight.NORMAL, FontPosture.ITALIC,18));
+        AnchorPane.setLeftAnchor(text, 150.0);
+        AnchorPane.setTopAnchor(text, 30.0);
+        //Title Column
+        TableColumn<Tasks, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setResizable(false);
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        //Date Column
+        TableColumn<Tasks, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setResizable(false);
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        //Note Column
+        TableColumn<Tasks, String> noteColumn = new TableColumn<>("Note");
+        noteColumn.setResizable(false);
+        noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
+        //TableView
+        tableView = new TableView<>();
+        tableView.setItems(getTasks());
+        tableView.getColumns().addAll(titleColumn,dateColumn,noteColumn);
+        tableView.setMaxHeight(260);
+        AnchorPane.setRightAnchor(tableView, 80.0);
+        AnchorPane.setLeftAnchor(tableView,80.0);
+        AnchorPane.setTopAnchor(tableView, 60.0);
+        //Buttons
+        delete = new Button("Delete");
+        delete.setOnAction(e -> deleteButton());
+        AnchorPane.setLeftAnchor(delete, 100.0);
+        AnchorPane.setBottomAnchor(delete, 35.0);
+        back = new Button("Back");
+        back.setOnAction(e ->home());
+        AnchorPane.setRightAnchor(back, 100.0);
+        AnchorPane.setBottomAnchor(back,35.0);
+        //Scene
+        anchorPane.getChildren().addAll(text, tableView, back, delete);
+        sceneF = new Scene(anchorPane,400,400);
+        sceneF.getStylesheets().add("MyCSS.css");
+        window.setScene(sceneF);
+        window.show();
+    }
+    //Delete Button
+    public void deleteButton(){
+        ObservableList<Tasks> tasksSelected, allTasks;
+        allTasks = tableView.getItems();
+        tasksSelected = tableView.getSelectionModel().getSelectedItems();
+        tasksSelected.forEach(allTasks::remove);
+    }
+
+    //Tasks
+    public ObservableList<Tasks> getTasks(){
+        ObservableList<Tasks> tasks = FXCollections.observableArrayList();
+        return tasks;
+    }
+
+    //Exit
     private void closeProgram(){
 
         Boolean answer = ConfirmBox.display("Exit Program","Are you sure you want to exit?");
