@@ -1,10 +1,11 @@
 package com.company;
-import javafx.scene.paint.Color;
+
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
+import javafx.scene.image.Image;
 
 public class ConfirmBox {
 
@@ -22,11 +23,11 @@ public class ConfirmBox {
         label.setText(massage);
         //Buttons
         Button yesButton = new Button("Yes");
-        Button noButton = new Button("No");
         yesButton.setOnAction(e ->{
             answer = true;
             window.close();
         });
+        Button noButton = new Button("No");
         noButton.setOnAction(e ->{
             answer = false;
             window.close();

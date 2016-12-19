@@ -21,6 +21,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
+import java.sql.*;
+import javafx.scene.image.Image;
+
+import java.sql.Date;
 
 public class Main extends Application {
 
@@ -30,9 +34,11 @@ public class Main extends Application {
     TextField titleInput;
     TextArea noteInput;
     DatePicker dateInput;
-    Scene sceneA, sceneB, sceneC, sceneD, sceneE, sceneF, sceneG;
+    Scene sceneA, sceneB, sceneC, sceneD, sceneE, sceneF;
 
     public static void main(String[] args) {
+
+
         launch(args);
     }
 
@@ -40,7 +46,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //Window Options
-
         window = primaryStage;
         window.setResizable(false);
         window.setTitle("TaskManager 0.5");
@@ -249,7 +254,7 @@ public class Main extends Application {
     public void saveButton(){
         Tasks tasks = new Tasks();
         tasks.setTitle(titleInput.getText());
-        tasks.setTitle(dateInput.getId());
+        tasks.setDate(dateInput.getAccessibleText());             //////?????????????
         tasks.setNote(noteInput.getText());
         tableView.getItems().add(tasks);
         titleInput.clear();
@@ -312,6 +317,8 @@ public class Main extends Application {
     //Tasks
     public ObservableList<Tasks> getTasks(){
         ObservableList<Tasks> tasks = FXCollections.observableArrayList();
+        //testing
+        tasks.add(new Tasks("asd","asd","asd"));
         return tasks;
     }
 
