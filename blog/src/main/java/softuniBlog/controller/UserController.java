@@ -44,6 +44,8 @@ public class UserController {
             return "redirect:/register";
         }
 
+
+
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         User user = new User(
